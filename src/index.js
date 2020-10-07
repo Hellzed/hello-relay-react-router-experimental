@@ -1,17 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { RelayEnvironmentProvider } from 'react-relay/hooks';
+import { Environment, Network, RecordSource, Store } from 'relay-runtime';
+
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+
+const fetchGraphQL = async (text, variables) => {
+  const response = await fetch('http://localhost:4000/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query: text, variables }),
+  });
+
+  return await response.json();
+};
+
+const fetchRelay = async (params, variables) => {
+  return fetchGraphQL(params.text, variables);
+};
+
+const environment = new Environment({
+  network: Network.create(fetchRelay),
+  store: new Store(new RecordSource()),
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RelayEnvironmentProvider environment={environment}>
+      <App />
+    </RelayEnvironmentProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

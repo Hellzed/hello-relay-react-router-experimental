@@ -6,14 +6,23 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0",
+    "history": "^5.0.0",
+    "react": "^0.0.0-experimental-4ead6b530",
+    "react-dom": "^0.0.0-experimental-4ead6b530",
+    "react-relay": "^0.0.0-experimental-183bdd28",
+    "react-router": "^0.0.0-experimental-ffd8c7d0",
+    "react-router-dom": "^0.0.0-experimental-ffd8c7d0",
+    "react-scripts": "3.4.3",
+    "relay-runtime": "^10.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "server": "node server.js",
+    "start": "yarn run relay && react-scripts start",
+    "build": "yarn run relay && react-scripts build",
+    "relay": "yarn run relay-compiler --schema schema.graphql --src ./src/ --watchman false $@",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -30,5 +39,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-relay": "^10.0.1",
+    "relay-compiler": "^10.0.1"
   }
 }
